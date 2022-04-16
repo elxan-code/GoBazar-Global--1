@@ -1,0 +1,117 @@
+﻿@model VmComment
+@inject IHttpContextAccessor _httpContext
+<ol class="commentlist">
+    <li class="review">
+        @foreach (var item in Model.Comments)
+        {
+
+
+<div class="comment_container">
+    <div class="avatar">
+        <img alt="" src="images/outeam/avatar.png">
+    </div>
+    <div class="comment-text">
+        <p class="meta">
+            <strong class="woocommerce-review__author">@item.Name </strong>
+            @*<span class="woocommerce-review__dash">@item.Email</span>*@
+            <span class="woocommerce-review__published-date">
+                @item.CreatedDate.ToString("dd.MM.yyyy  ")
+            </span>
+        </p>
+        <div class="star-rating">
+            <span>
+                <i class="fa fa-star "></i> <i class="fa fa-star "></i>
+                <i class="fa fa-star "></i> <i class="fa fa-star "></i>
+                <i class="fa fa-star-o "></i>
+            </span>
+        </div>
+        <div class="description">
+            <p>
+                @(item.Destiraction.Length > 100 ? item.Destiraction.Substring(0, 100) + "..." : item.Destiraction)
+
+            </p>
+        </div>
+    </div>
+</div>}
+    </li><!-- #comment-## -->
+    <li class="review">
+
+        <div class="comment_container">
+
+
+        </div>
+        </div>
+    </li><!-- #comment-## -->
+</ol>
+
+                            </div>
+
+<div id="review_form_wrapper">
+    <div id="review_form">
+        <div id="respond" class="comment-respond">
+            @if (_httpContext.HttpContext.Session.GetString("Success") != null)
+            {
+<div class="alert alert-success">
+    @_httpContext.HttpContext.Session.GetString("Success")
+</div>_httpContext.HttpContext.Session.Remove("Success");
+}
+
+            @if (_httpContext.HttpContext.Session.GetString("Error") != null)
+            {
+<div class="alert alert-danger">
+    @_httpContext.HttpContext.Session.GetString("Error")
+</div>_httpContext.HttpContext.Session.Remove("Error");
+}
+            <form asp-controller="product" asp-action="Message"   method="post"
+                  id="commentform" class="comment-form">
+                <p class="comment-notes">
+                    <span id="email-notes">Your email address will not be published.</span>
+                    Required fields are marked <span class="required">*</span>
+                </p>
+                <p class="comment-form-author">
+                    <label for="author">
+                        Name<span class="required">*</span>
+                    </label>
+                    <input id="author" asp-for="@Model.Comment.Name" type="text" value="" size="30"
+                           required="">
+                </p>
+                <p class="comment-form-email">
+                    <label for="email">
+                        Email<span class="required">*</span>
+                    </label>
+                    <input id="email" asp-for="@Model.Comment.Email" type="email" value="" size="30"
+                           required="">
+                </p>
+                @*<p class="comment-form-cookies-consent">
+                        type="checkbox" value="yes">
+                        <input id="wp-comment-cookies-consent"
+                               name="wp-comment-cookies-consent"
+                        <label for="wp-comment-cookies-consent">
+                            Save my name, email, and
+                            website in
+                            this browser for the next time I comment.
+                        </label>
+                    </p>*@
+                @*<div class="comment-form-rating">
+                        <label>Your rating</label>
+                        <p class="stars">
+                            <span></span><span></span><span></span><span></span><span></span>
+                        </p>
+
+                    </div>*@
+                <p class="comment-form-comment">
+                    <label for="comment">
+                        Your review <span class="required">*</span>
+                    </label>
+                    <textarea id="comment" asp-for="@Model.Comment.Destiraction" cols="45" rows="8"
+                              required="">
+                                                        </textarea>
+                </p>
+                <p class="form-submit">
+                    <input  type="submit"
+                           class="submit" value="Submit">
+                </p>
+            </form>
+        </div><!-- #respond -->
+    </div>
+</div>
